@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 		perror("File cannot be opened");
 		return errno;
 	}
-	printf("%d lines number : \n", files[0].totallines);
+//	printf("%d lines number : \n", files[0].totallines);
 	for(i = 0; i < files[0].totallines; i++){
 		printf("%d. %s\n", files[0].origlinenumber[i], files[0].lines[i]);
 	}
