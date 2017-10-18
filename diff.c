@@ -68,7 +68,7 @@ void shortest_edit_graph(file_data *a){
 			if(x >= n && y >= m ){
 				memcpy(trace[d], &arr, sizeof(arr));
 			
-				backtrack(trace, d, x, y);
+				backtrack(trace, d, x, y, n, m);
 				return;
 			}
 		}	
@@ -78,13 +78,46 @@ void shortest_edit_graph(file_data *a){
 }
 //to find the shortest path of all the paths in trace array
 //backtrack throught all the d in reverse order and and save the path into struct array
-void backtrack(int **trace, int d, int x, int y){
-	int i = 0, j;
-	int size = 2 * (x + y) + 1;
-	for(i = d; i >= 0; i--){
+void backtrack(int **trace, int d, int x, int y, int n, int m){
+	int i = 0, btcounter = 0, *v, j;
+	int max = n + m;
+	int size = max * 2 + 1;
+	int arr[size];
+	int k, prev_k, prev_x, prev_y;
+	btrack bt[max];
+	for(i = d; i > 0; i--){
 		for(j = 0; j < size; j++){
-			printf(" %d ", trace[i][j]);
+			arr[j] = trace[i][j];
+			printf(" %d ", arr[j]);
 		}
-		printf("\n");
+		v = arr + max;	
+		k = x - y;	
+		if(k == -d || (k != d && v[k - 1] < v[k + 1]))
+			prev_k = k + 1;
+		else
+			prev_k = k - 1;
+		prev_x = v[prev_k];
+		prev_y = prev_x - prev_k;
+		while(x > prev_x && y > prev_y){
+			bt[btcounter].prevx = x - 1;
+			bt[btcounter].prevy = y - 1;
+			bt[btcounter].x = x;
+			bt[btcounter].y = y;
+			x = x - 1;
+			y = y - 1;
+			btcounter++;
+		}
+		if(d > 0){
+			bt[btcounter].prevx = prev_x;
+                        bt[btcounter].prevy = prev_y;
+                        bt[btcounter].x = x;
+                        bt[btcounter].y = y;
+			btcounter++;
+		}
+		x = prev_x;
+		y = prev_y;
+	}
+	for(i = 0; i < btcounter; i++){
+		printf("(%d , %d) => (%d , %d)\n", bt[i].prevx, bt[i].prevy, bt[i].x, bt[i].y);
 	}
 }
