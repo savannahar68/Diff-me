@@ -1,4 +1,6 @@
-hi
-this is
-file
-two
+c
+b
+a
+b
+a
+c

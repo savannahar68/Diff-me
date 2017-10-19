@@ -21,6 +21,9 @@ int readlinesfromfiles(char *filename, file_data *a){
 	fp = fopen(filename, "r");	
 	if(fp == NULL)
 		return 0;
+	a->lines[x] = "test";
+	a->origlinenumber[x] = x;
+	x++;
 	while(1){
 		if(fgets(line, 128, fp) == NULL)
 			break;
@@ -29,7 +32,7 @@ int readlinesfromfiles(char *filename, file_data *a){
 		a->lines[x] = malloc(strlen(line)*sizeof(char));
 		strcpy(a->lines[x], line);
 	
-		a->origlinenumber[x] = x + 1;
+		a->origlinenumber[x] = x;
 		x++;
 	}
 	a->totallines = x;
@@ -147,6 +150,7 @@ diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 			store(&b, lineA, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 1, 0);						
 		}
 		else{
+			//printf("similar : %s\n", a[0].lines[bt[i].prevx]);
 			//both lines are equal if prevx != x and prevy != y
 		}
 		
