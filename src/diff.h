@@ -14,6 +14,6 @@ typedef struct btrack{
 
 void initfiledata(file_data *a);
 int readlinesfromfiles(char *filename, file_data *a);
-void shortest_edit_graph(file_data *a);
-void backtrack(int **trace, int d, int x, int y, int n, int m);
-diffstore diffoutput(btrack bt[], int btcounter);
+diffstore shortest_edit_graph(file_data *a);
+diffstore backtrack(int **trace, int d, int x, int y, int n, int m, file_data *a);
+diffstore diffoutput(btrack bt[], int btcounter, file_data *a);

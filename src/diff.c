@@ -38,7 +38,8 @@ int readlinesfromfiles(char *filename, file_data *a){
 //this fuction does the main logic of mayers alogrithm ,
 //it makes the edit graph which will give us the shortest path
 //from the top to the end
-void shortest_edit_graph(file_data *a){
+diffstore shortest_edit_graph(file_data *a){
+	diffstore diff;
 	int n = a[0].totallines;
 	int m = a[1].totallines;
 	int max = m + n;
@@ -68,17 +69,19 @@ void shortest_edit_graph(file_data *a){
 			if(x >= n && y >= m ){
 				memcpy(trace[d], &arr, sizeof(arr));
 			
-				backtrack(trace, d, x, y, n, m);
-				return;
+				diff = backtrack(trace, d, x, y, n, m, a);
+				return diff;
 			}
 		}	
 		memcpy(trace[d], &arr, sizeof(arr));
 	}
+	init(&diff);
+	return diff;
 	
 }
 //to find the shortest path of all the paths in trace array
 //backtrack throught all the d in reverse order and and save the path into struct array
-void backtrack(int **trace, int d, int x, int y, int n, int m){
+diffstore backtrack(int **trace, int d, int x, int y, int n, int m, file_data *a){
 	int i = 0, btcounter = 0, *v, j;
 	int max = n + m;
 	int size = max * 2 + 1;
@@ -89,7 +92,6 @@ void backtrack(int **trace, int d, int x, int y, int n, int m){
 	for(i = d; i > 0; i--){
 		for(j = 0; j < size; j++){
 			arr[j] = trace[i][j];
-			printf(" %d ", arr[j]);
 		}
 		v = arr + max;//going to middle of array	
 		k = x - y;	
@@ -119,13 +121,35 @@ void backtrack(int **trace, int d, int x, int y, int n, int m){
 		y = prev_y;
 	}
 	//bt structure array has shortest path in reverse order, further we do processing on this
-	diff = diffoutput(bt, btcounter);
-	for(i = 0; i < btcounter; i++){
-		printf("(%d , %d) => (%d , %d)\n", bt[i].prevx, bt[i].prevy, bt[i].x, bt[i].y);
-	}
+	diff = diffoutput(bt, btcounter, a); //get diffoutput in diff then return diff
+	return diff;
 }
-diffstore diffoutput(btrack bt[], int btcounter){
+//run the backtrack output and mark the chanegs of updation deletion into data structure named diffstore
+//return diffstore to backtrack
+//check the prev_x and prev_y with x and y if they are different then no changes files are euqal
+//if prev_X and x are same then there's a deletion  (downward move taken in graph)
+//if prev_y and  y are same then there's a insertion (rightward move taken in graph)
+diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 	diffstore b;
 	init(&b);
+	int i;
+	char *lineA, *lineB;
+	lineA = (char *)malloc(500*sizeof(char));
+	lineB = (char *)malloc(500*sizeof(char));
+	for(i = 0; i < btcounter; i++){
+
+		if(bt[i].x == bt[i].prevx){ //insert line from 2nd file
+			strcpy(lineB, a[1].lines[bt[i].prevy]);
+			store(&b, lineB, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 0, 1);						
+		}
+		else if(bt[i].y == bt[i].prevy){ //delete line from 1st file
+			strcpy(lineA, a[0].lines[bt[i].prevx]);
+			store(&b, lineA, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 1, 0);						
+		}
+		else{
+			//both lines are equal if prevx != x and prevy != y
+		}
+		
+	}
 	return b;
 }

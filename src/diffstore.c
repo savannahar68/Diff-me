@@ -28,7 +28,7 @@ extern node retrieve(diffstore *d){
 	temp.line = malloc(strlen((*d)->line) * sizeof(char));
 	strcpy(temp.line, (*d)->line);
 	temp.posx = (*d)->posx;
-	temp.posx = (*d)->posx;
+	temp.posy = (*d)->posy;
 	temp.deleteflag = (*d)->deleteflag;
 	temp.insertflag = (*d)->insertflag;
 	*d = (*d)->next;
