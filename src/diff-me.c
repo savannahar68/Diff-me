@@ -5,9 +5,10 @@
 #include "diff.h"
 #include "diffstore.h"
 int main(int argc, char *argv[]){
-	int i;
         char filename[2][50];
         file_data files[2];
+	diffstore diff;
+	node opline; //contains one output line from diff which is returned by shortest edit
 	//init the structure to start the line count of each file from 0
         initfiledata(&files[0]);
         initfiledata(&files[1]);
@@ -18,12 +19,11 @@ int main(int argc, char *argv[]){
 		perror("File cannot be opened");
 		return errno;
 	}
-	for(i = 0; i < files[0].totallines; i++){
-		printf("%d. %s\n", files[0].origlinenumber[i], files[0].lines[i]);
+	diff = shortest_edit_graph(files);
+	while(!isempty(&diff)){
+		opline = retrieve(&diff);
+		printf("%s %d %d %d %d\n", opline.line, opline.posx, opline.posy, opline.deleteflag, opline.insertflag);
 	}
-	for(i = 0; i < files[1].totallines; i++){
-		printf("%d. %s\n", files[1].origlinenumber[i], files[1].lines[i]);
-	}
-	shortest_edit_graph(files);
+	return 0;
 }
 
