@@ -69,7 +69,7 @@ int deleteset(filestore *f, int pos){
 	return 1;
 }
 //read and return a line, if empty return NULL
-char *read(filestore *f){
+char *readline(filestore *f){
 	node *ptr = NULL;
 	char *line = NULL;
 	if(f->head == NULL)
@@ -85,4 +85,24 @@ char *read(filestore *f){
 	f->head = f->head->next;
 	free(ptr);
 	return line;
+}
+//read line
+filestore readlinesfromfiles(char *filename){
+	FILE *fp;
+	filestore store;
+	char line[128];
+	int pos = 1;
+	fp = fopen(filename, "r");	
+	init(&store);
+	if(fp == NULL)
+		return store;
+	while(1){
+		if(fgets(line, 128, fp) == NULL)
+			break;
+		//malloc each lines
+		line[strlen(line) - 1] = '\0'; //to prevent storing of \n at the end
+		append(&store, line, pos);
+		pos += 1;
+	}
+	return store; 
 }

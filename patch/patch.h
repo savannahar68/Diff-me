@@ -14,6 +14,6 @@ void init(filestore *f);
 void append(filestore *f, char *line, int pos);
 int insert(filestore *f, char *line, int pos);
 int deleteset(filestore *f, int pos);
-char *read(filestore *f);
-
+char *readline(filestore *f);
+filestore readlinesfromfiles(char *filename);
 
