@@ -4,7 +4,7 @@
 extern void init(diffstore *d){
 	*d = NULL;
 }
-extern void store(diffstore *d, char *line, int posx, int posy, int deleteflag, int insertflag){
+extern void store(diffstore *d, char *line, int posx, int posy, int deleteflag, int insertflag, int equalflag){
 	node *temp = malloc(sizeof(node));
 	temp->line = malloc(strlen(line) * sizeof(char));
 	strcpy(temp->line, line);
@@ -12,6 +12,7 @@ extern void store(diffstore *d, char *line, int posx, int posy, int deleteflag, 
 	temp->posy = posy;
 	temp->deleteflag = deleteflag;
 	temp->insertflag = insertflag;
+	temp->equalflag = equalflag;
 	if(*d == NULL){
 		*d = temp;
 		temp->next = NULL;
@@ -31,6 +32,7 @@ extern node retrieve(diffstore *d){
 	temp.posy = (*d)->posy;
 	temp.deleteflag = (*d)->deleteflag;
 	temp.insertflag = (*d)->insertflag;
+	temp.equalflag = (*d)->equalflag;
 	*d = (*d)->next;
 	free(ptr);
 	return temp;	

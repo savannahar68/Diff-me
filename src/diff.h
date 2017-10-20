@@ -26,8 +26,11 @@ typedef struct diffout{
 	int linecounter; //init it to 0 in else with each node
 }diffout;
 
+//prototype
 void initfiledata(file_data *a);
 int readlinesfromfiles(char *filename, file_data *a);
 diffstore shortest_edit_graph(file_data *a);
 diffstore backtrack(int **trace, int d, int x, int y, int n, int m, file_data *a);
 diffstore diffoutput(btrack bt[], int btcounter, file_data *a);
+void compress_spaces(char *line);
+int stringcmp(char *linex, char *liney);

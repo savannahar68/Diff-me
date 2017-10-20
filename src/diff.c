@@ -2,9 +2,19 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<fcntl.h>
+#include<ctype.h>
 #include<string.h>
 #include "diff.h"
 #include "diffstore.h"
+
+//variables for flag
+extern int flagy;
+extern int flagc;
+extern int flagw;
+extern int flagi;
+extern int flagb;
+extern int flagt;
+
 //Initialize the structure name file_data and set the linenumber to 1
 void initfiledata(file_data *a){
 	(*a).origlinenumber = malloc(1000*sizeof(int *));
@@ -64,7 +74,7 @@ diffstore shortest_edit_graph(file_data *a){
 			else
 				x = v[k - 1] + 1;
 			y = x - k;
-			while(x < n && y < m && (strcmp(a[0].lines[x], a[1].lines[y]) == 0)){
+			while(x < n && y < m && (stringcmp(a[0].lines[x], a[1].lines[y]) == 0)){
 				x = x + 1;	
 				y = y + 1;
 			}
@@ -81,6 +91,65 @@ diffstore shortest_edit_graph(file_data *a){
 	init(&diff);
 	return diff;
 	
+}
+//remove the extra white space and trailing space
+void compress_spaces(char *str)
+{
+	char *dst = str;
+	for(; *str; ++str){
+        	*dst++ = *str;
+		if (isspace(*str)) {
+            		do ++str;
+            		while (isspace(*str));
+            		--str;
+        	}
+    	}
+
+	*dst = 0;
+    	while(isspace(*(dst - 1))){
+        	*(dst - 1) = 0;
+        	dst--;
+        }
+}
+
+int stringcmp(char *linea, char *lineb){
+	char *linex, *liney, *i, *j;
+	linex = (char *)malloc(strlen(linea)*sizeof(char));
+	liney = (char *)malloc(strlen(lineb)*sizeof(char));
+	strcpy(linex, linea);
+	strcpy(liney, lineb);
+	if(flagb == 1 && flagw == 0){ //b flag - for removing extra and trailing space from the line
+		compress_spaces(linex);
+		compress_spaces(liney);
+	}
+	if(flagw == 1){ //w flag set - all the whitespaces are removed
+		i = linex;
+		j = linex;
+		while(*j != 0)
+  		{
+    			*i = *j++;
+    			if(*i != ' ')
+      				i++;
+  		}
+  		*i = 0;
+		i = liney;
+                j = liney;
+                while(*j != 0)
+                {
+                        *i = *j++;
+                        if(*i != ' ')
+                                i++;
+                }
+                *i = 0;
+	}
+
+	if(flagi == 1){
+		return strcasecmp(linex, liney);
+	}
+	else{
+		return strcmp(linex, liney);
+	}
+	return 1;//not matched
 }
 //to find the shortest path of all the paths in trace array
 //backtrack throught all the d in reverse order and and save the path into struct array
@@ -143,14 +212,16 @@ diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 
 		if(bt[i].x == bt[i].prevx){ //insert line from 2nd file
 			strcpy(lineB, a[1].lines[bt[i].prevy]);
-			store(&b, lineB, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 0, 1);						
+			store(&b, lineB, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 0, 1, 0);						
 		}
 		else if(bt[i].y == bt[i].prevy){ //delete line from 1st file
 			strcpy(lineA, a[0].lines[bt[i].prevx]);
-			store(&b, lineA, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 1, 0);						
+			store(&b, lineA, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 1, 0, 0);						
 		}
 		else{
 			//printf("similar : %s\n", a[0].lines[bt[i].prevx]);
+			strcpy(lineA, a[0].lines[bt[i].prevx]);
+			store(&b, lineA, a[0].origlinenumber[bt[i].prevx], a[1].origlinenumber[bt[i].prevy], 0, 0, 1);			
 			//both lines are equal if prevx != x and prevy != y
 		}
 		
