@@ -8,7 +8,7 @@ The following flags will be implemented
 -t : Expand tabs to spaces in output
 -w : Ignore all white spaces
 -b : Ignore changes in amount of white space
--i : Ignore space difference in file content
+-i : Ignore case difference in file content
 
 Patch command - which takes the patch file containing the difference of two files and
                 apply those difference to one or more original files.
