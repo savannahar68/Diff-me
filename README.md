@@ -4,7 +4,6 @@ The following flags will be implemented
 
 -y : Output in 2 columns side by side
 -c : Output num lines of content copied
--r : Recursively compare any subdirectories found
 -t : Expand tabs to spaces in output
 -w : Ignore all white spaces
 -b : Ignore changes in amount of white space
