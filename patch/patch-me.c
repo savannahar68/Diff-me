@@ -8,22 +8,21 @@
 #include "patch.h"
 
 int main(int argc, char *argv[]){
-	FILE *fp, *fp1;
+	FILE *fp;
 	long val;
 	char *line, *p;
 	int i = 0, pos, j, size;
 	int num[4];
 	filestore store;
-	printf("in progeam");
 	if(argc != 3){
 		perror("Passing arguments should be a file and a patch");
 		return errno;
 	}
-	if((fp1 = fopen(argv[1], "r")) == NULL ){
+	if((fp = fopen(argv[1], "r")) == NULL ){
 		perror("Problem while opening file :");
 		return errno;
 	}
-	fclose(fp1);
+	fclose(fp);
 	store = readlinesfromfiles(argv[1]);
 	fp = fopen(argv[2], "r");
 	
@@ -55,7 +54,6 @@ int main(int argc, char *argv[]){
 		p = line;
 		while(*p != 'a' && *p != 'd')
 			p++;
-		printf("inside");
 		if(*p == 'a'){
 			pos = num[0];
 			if(num[3] == 0){
@@ -108,6 +106,16 @@ int main(int argc, char *argv[]){
 		i = 0;
 		j = 0;
 		size = 0;
+	}
+	fclose(fp);
+	fp = fopen(argv[1], "w");
+	if(fp == NULL){
+		perror("Cannot open file");
+		return errno;
+	}
+	while((line = readline(&store)) != NULL){
+		fwrite(line, 1, strlen(line)*sizeof(char), fp);
+		fwrite("\n", 1, sizeof(char), fp);
 	}
 	return 0;
 }

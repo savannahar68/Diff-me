@@ -40,7 +40,7 @@ int insert(filestore *f, char *line, int pos){
 		prev = ptr;
 		ptr = ptr->next;
 	}
-	if(ptr == NULL && (prev->pos == pos - 1)){//when we want to insert at the end 
+	if(ptr == NULL && (prev->pos < pos)){//when we want to insert at the end 
 		temp->next = NULL;
 		f->tail->next = temp;
 		f->tail = temp;
