@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
 	}
 	line = (char *)malloc(128*sizeof(char));
 	while(fgets(line, 128, fp) != NULL){
+		memset(num, 0, 4*sizeof(int));
 		line[strlen(line) - 1] = '\0';
 		p = line;
 		while(*p && *p != 'a' && *p != 'd'){
@@ -84,6 +85,7 @@ int main(int argc, char *argv[]){
 		}
 		else if(*p == 'd'){
 			if(num[1] == 0){
+				fgets(line, 128, fp);
 				if(deleteset(&store, num[0]) != 1){
 					perror("Problem in patch file");
 					return errno;
@@ -91,6 +93,7 @@ int main(int argc, char *argv[]){
 			}
 			else{
 				for(j = num[0]; j <= num[1]; j++){
+					fgets(line, 128, fp);
 					if(deleteset(&store, j) != 1){
 						perror("Problem in patch file");
 						return errno;
