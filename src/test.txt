@@ -1,0 +1,19 @@
+./diff-me file1.txt file2.txt
+./diff-me -y file1.txt file2.txt
+./diff-me -c file1.txt file2.txt
+./diff-me -w file1.txt file2.txt
+./diff-me -b file1.txt file2.txt
+./diff-me -i file1.txt file2.txt
+./diff-me -w -b file1.txt file2.txt
+./diff-me -i -b file1.txt file2.txt
+./diff-me -w -i file1.txt file2.txt
+./diff-me -w -b -i file1.txt file2.txt
+./diff-me -y -w file1.txt file2.txt
+./diff-me -y -i file1.txt file2.txt
+./diff-me -y -b file1.txt file2.txt
+./diff-me -y -b -w -i file1.txt file2.txt
+./diff-me -c -w file1.txt file2.txt
+./diff-me -c -i file1.txt file2.txt
+./diff-me -c -b file1.txt file2.txt
+./diff-me -c -w -b -i file1.txt file2.txt
+./diff-me file1.txt file2.txt > patch
