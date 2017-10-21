@@ -1,5 +1,6 @@
-HI
-THIS
-is a
-FIRST FILE
-FILE
+c
+b
+a
+b
+a
+c

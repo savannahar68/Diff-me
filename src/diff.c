@@ -39,7 +39,7 @@ int readlinesfromfiles(char *filename, file_data *a){
 			break;
 		//malloc each lines
 		line[strlen(line) - 1] = '\0'; //to prevent storing of \n at the end
-		a->lines[x] = malloc(strlen(line)*sizeof(char));
+		a->lines[x] = malloc(2*strlen(line)*sizeof(char));
 		strcpy(a->lines[x], line);
 	
 		a->origlinenumber[x] = x;
@@ -114,8 +114,8 @@ void compress_spaces(char *str)
 
 int stringcmp(char *linea, char *lineb){
 	char *linex, *liney, *i, *j;
-	linex = (char *)malloc(strlen(linea)*sizeof(char));
-	liney = (char *)malloc(strlen(lineb)*sizeof(char));
+	linex = (char *)malloc(2*strlen(linea)*sizeof(char));
+	liney = (char *)malloc(2*strlen(lineb)*sizeof(char));
 	strcpy(linex, linea);
 	strcpy(liney, lineb);
 	if(flagb == 1 && flagw == 0){ //b flag - for removing extra and trailing space from the line
