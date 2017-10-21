@@ -120,5 +120,6 @@ int main(int argc, char *argv[]){
 		fwrite(line, 1, strlen(line)*sizeof(char), fp);
 		fwrite("\n", 1, sizeof(char), fp);
 	}
+	printf("Done patching file\n");
 	return 0;
 }

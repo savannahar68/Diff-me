@@ -12,7 +12,7 @@ void init(filestore *f){
 void append(filestore *f, char *line, int pos){
 	node *temp;
 	temp = (node *)malloc(sizeof(node));
-	temp->line = (char *)malloc(sizeof(char));
+	temp->line = (char *)malloc(2*strlen(line)*sizeof(char));
 	strcpy(temp->line, line);
 	temp->pos = pos;
 	temp->flag = -1;
@@ -30,7 +30,7 @@ int insert(filestore *f, char *line, int pos){
 	node *temp;
 	node *ptr, *prev;
 	temp = (node *)malloc(sizeof(node));
-	temp->line = (char *)malloc(sizeof(char));
+	temp->line = (char *)malloc(2*strlen(line)*sizeof(char));
 	strcpy(temp->line, line);
 	temp->pos = -1;
 	temp->flag = -1;
@@ -74,7 +74,7 @@ char *readline(filestore *f){
 	char *line = NULL;
 	if(f->head == NULL)
 		return line;
-	line = (char *)malloc(sizeof(char));
+	line = (char *)malloc(2*128*sizeof(char));
 	while(f->head->flag == 1){//of the node has delete flag set
 		ptr = f->head;	  //the free that node and move the pointer ahead
 		f->head = f->head->next;
