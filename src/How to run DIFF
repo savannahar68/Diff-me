@@ -1,0 +1,17 @@
+To run this project do the following
+Download the "diff-me" file from the src folder
+
+and the run the command by followed by flags and command
+like this :
+
+./diff-me file1.txt file2.txt
+
+You can use following flags
+-y - for side by side output
+-c - for context output
+-w - ignore all the white spaces
+-b - ignore changes in amount of white space and trailing whitespace
+-i - ignore case
+./diff-me -y file1.txt file2.txt
+./diff-me -c file1.txt file2.txt
+./diff-me -w -b -i file1.txt file2.txt  (use these 3 flags in anycombination with -y -c or default diff)
