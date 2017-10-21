@@ -1,0 +1,7 @@
+To run the patch command do the following 
+
+Download the "patch-me" file
+Run the patch me file on the file which you want to patch and the patch file
+eg.
+
+./patch-me file1.txt patch
