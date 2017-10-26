@@ -4,10 +4,6 @@
 #include<fcntl.h>
 #include<ctype.h>
 #include<string.h>
-#include <sys/types.h>
-#include <errno.h>
-#include <dirent.h>
-#include <limits.h>
 #include "diff.h"
 #include "diffstore.h"
 
@@ -94,9 +90,6 @@ diffstore shortest_edit_graph(file_data *a){
 		memcpy(trace[d], &arr, sizeof(arr));
 	}
 	init(&diff);
-	for(i = 0; i < max; i++)
-                free(trace[i]);
-	free(trace);
 	return diff;
 	
 }
@@ -121,8 +114,7 @@ void compress_spaces(char *str)
 }
 
 int stringcmp(char *linea, char *lineb){
-	char *linex = NULL, *liney = NULL, *i, *j;
-	int res = 0;
+	char *linex, *liney, *i, *j;
 	linex = (char *)malloc(2*strlen(linea)*sizeof(char));
 	liney = (char *)malloc(2*strlen(lineb)*sizeof(char));
 	strcpy(linex, linea);
@@ -153,16 +145,10 @@ int stringcmp(char *linea, char *lineb){
 	}
 
 	if(flagi == 1){
-		res = strcasecmp(linex, liney);
-		free(linex);
-		free(liney);
-		return res;
+		return strcasecmp(linex, liney);
 	}
 	else{
-		res = strcmp(linex, liney);
-		free(linex);
-		free(liney);
-		return res;
+		return strcmp(linex, liney);
 	}
 	return 1;//not matched
 }
@@ -221,8 +207,8 @@ diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 	init(&b);
 	int i;
 	char *lineA, *lineB;
-	lineA = (char *)malloc(5000*sizeof(char));
-	lineB = (char *)malloc(5000*sizeof(char));
+	lineA = (char *)malloc(500*sizeof(char));
+	lineB = (char *)malloc(500*sizeof(char));
 	for(i = 0; i < btcounter; i++){
 
 		if(bt[i].x == bt[i].prevx){ //insert line from 2nd file
@@ -241,65 +227,5 @@ diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 		}
 		
 	}
-	free(lineA);
-	free(lineB);
 	return b;
-}
-directory list_dir(char * dir_name)
-{
-	DIR * d;
-	directory dirstruct;
-    	/* Open the directory specified by "dir_name". */
-    	d = opendir (dir_name);
-	printf("in dir : %s \n:", dir_name);
-	// Check it was opened.
-    	if (! d) {
-        	fprintf (stderr, "Cannot open directory '%s': %s\n", dir_name, strerror (errno));
-        	exit (EXIT_FAILURE);
-    	}
-	dirstruct.filename = (char **)malloc(1000 * sizeof(char*));
-	dirstruct.dirname = (char **)malloc(1000 * sizeof(char*));
-	dirstruct.totalfiles = 0;
-	dirstruct.flag = (int *)malloc(1000*sizeof(int));
-    	while (1) {
-        	struct dirent * entry;
-        	const char * d_name;
-		entry = readdir (d);
-        	if (! entry) {
-            		break;
-        	}
-        	d_name = entry->d_name;
-
-        	if (! (entry->d_type & DT_DIR)) {
-			dirstruct.filename[dirstruct.totalfiles] = malloc((strlen(d_name) + 1)*sizeof(char));
-			strcpy(dirstruct.filename[dirstruct.totalfiles], d_name);
-			dirstruct.dirname[dirstruct.totalfiles] = malloc((strlen(dir_name) + 1)*sizeof(char));
-			strcpy(dirstruct.dirname[dirstruct.totalfiles], dir_name);
-			strcat(dirstruct.dirname[dirstruct.totalfiles], "/");
-			dirstruct.flag[dirstruct.totalfiles] = 0;//flag initially set to 0
-			dirstruct.totalfiles += 1;
-		}
-        	if (entry->d_type & DT_DIR) {
-            
-           	if (strcmp (d_name, "..") != 0 &&
-                	strcmp (d_name, ".") != 0) {
-                	int path_length;
-                	char path[PATH_MAX];
-               		path_length = snprintf (path, PATH_MAX,"%s/%s", dir_name, d_name);
-              //  printf ("%s\n", path);
-             	   	if (path_length >= PATH_MAX) {
-                   		fprintf (stderr, "Path length has got too long.\n");
-                    		exit (EXIT_FAILURE);
-                	}
-               	 /* Recursively call "list_dir" with the new path. */
-                		list_dir (path);
-            		}
-		}
-	}
-    	if (closedir (d)) {
-        	fprintf (stderr, "Could not close '%s': %s\n",
-                	 dir_name, strerror (errno));
-        	exit (EXIT_FAILURE);
-    	}
-	return dirstruct;
 }
