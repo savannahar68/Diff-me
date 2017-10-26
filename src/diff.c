@@ -123,8 +123,8 @@ void compress_spaces(char *str)
 int stringcmp(char *linea, char *lineb){
 	char *linex = NULL, *liney = NULL, *i, *j;
 	int res = 0;
-	linex = (char *)malloc(1+strlen(linea)*sizeof(char));
-	liney = (char *)malloc(1+strlen(lineb)*sizeof(char));
+	linex = (char *)malloc(2*strlen(linea)*sizeof(char));
+	liney = (char *)malloc(2*strlen(lineb)*sizeof(char));
 	strcpy(linex, linea);
 	strcpy(liney, lineb);
 	if(flagb == 1 && flagw == 0){ //b flag - for removing extra and trailing space from the line
@@ -221,8 +221,8 @@ diffstore diffoutput(btrack bt[], int btcounter, file_data *a){
 	init(&b);
 	int i;
 	char *lineA, *lineB;
-	lineA = (char *)malloc(500*sizeof(char));
-	lineB = (char *)malloc(500*sizeof(char));
+	lineA = (char *)malloc(5000*sizeof(char));
+	lineB = (char *)malloc(5000*sizeof(char));
 	for(i = 0; i < btcounter; i++){
 
 		if(bt[i].x == bt[i].prevx){ //insert line from 2nd file

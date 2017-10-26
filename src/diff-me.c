@@ -275,7 +275,7 @@ int main(int argc, char *argv[]){
 									output[outputcounter].ypos = opline.posy;
 									output[outputcounter].endypos = 0;
 									output[outputcounter].step = 0;
-									output[outputcounter].line = (char **)malloc((max/2)*sizeof(char*));
+									output[outputcounter].line = (char **)malloc(2*(max/2)*sizeof(char*));
 									output[outputcounter].linecounter = 0;
 									output[outputcounter].line[output[outputcounter].linecounter] = (char*)malloc(strlen(opline.line)*sizeof(char));
 									strcpy(output[outputcounter].line[output[outputcounter].linecounter], opline.line);
@@ -298,7 +298,7 @@ int main(int argc, char *argv[]){
 									output[outputcounter].endypos = 0;
 									output[outputcounter].start = insert;
 									output[outputcounter].step = 0;//not in use
-									output[outputcounter].line = (char **)malloc((max/2)*sizeof(char*));
+									output[outputcounter].line = (char **)malloc(2*(max/2)*sizeof(char*));
 									output[outputcounter].linecounter = 0;
 									output[outputcounter].line[output[outputcounter].linecounter] = (char*)malloc(strlen(opline.line)*sizeof(char));
 									strcpy(output[outputcounter].line[output[outputcounter].linecounter], opline.line);
@@ -309,7 +309,7 @@ int main(int argc, char *argv[]){
 								//both are equal
 							}
 						}
-						printf("Diff - %s : %s\n", filename[0], filename[1]);
+						printf("Diff: %s : %s\n", filename[0], filename[1]);
 						for(i = 0; i <= outputcounter; i++){
 							range = 0;
 							if(output[i].flag == 1){

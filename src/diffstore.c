@@ -34,7 +34,6 @@ extern node retrieve(diffstore *d){
 	temp.insertflag = (*d)->insertflag;
 	temp.equalflag = (*d)->equalflag;
 	*d = (*d)->next;
-	free(ptr->line);
 	free(ptr);
 	return temp;	
 }
