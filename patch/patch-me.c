@@ -25,13 +25,12 @@ int main(int argc, char *argv[]){
 	fclose(fp);
 	store = readlinesfromfiles(argv[1]);
 	fp = fopen(argv[2], "r");
-	
 	if(fp == NULL){
 		perror("patch cannot be done");	
 		return errno;
 	}
-	line = (char *)malloc(128*sizeof(char));
-	while(fgets(line, 128, fp) != NULL){
+	line = (char *)malloc(256*sizeof(char));
+	while(fgets(line, 255, fp) != NULL){
 		memset(num, 0, 4*sizeof(int));
 		line[strlen(line) - 1] = '\0';
 		p = line;
@@ -59,7 +58,7 @@ int main(int argc, char *argv[]){
 			pos = num[0];
 			if(num[3] == 0){
 				p = NULL;
-				fgets(line, 128, fp);
+				fgets(line, 256, fp);
 				line[strlen(line) - 1] = '\0';
 				p = line;
 				p += 2;
@@ -72,7 +71,7 @@ int main(int argc, char *argv[]){
 				size = num[3] - num[2] + 1;
 				for(j = 0; j < size; j++){
 					p = NULL;
-					fgets(line, 128, fp);
+					fgets(line, 256, fp);
 					line[strlen(line) - 1] = '\0';
 					p = line;
 					p += 2;
@@ -85,7 +84,7 @@ int main(int argc, char *argv[]){
 		}
 		else if(*p == 'd'){
 			if(num[1] == 0){
-				fgets(line, 128, fp);
+				fgets(line, 256, fp);
 				if(deleteset(&store, num[0]) != 1){
 					perror("Problem in patch file");
 					return errno;
@@ -93,7 +92,7 @@ int main(int argc, char *argv[]){
 			}
 			else{
 				for(j = num[0]; j <= num[1]; j++){
-					fgets(line, 128, fp);
+					fgets(line, 256, fp);
 					if(deleteset(&store, j) != 1){
 						perror("Problem in patch file");
 						return errno;
@@ -111,6 +110,7 @@ int main(int argc, char *argv[]){
 		size = 0;
 	}
 	fclose(fp);
+	fp = NULL;
 	fp = fopen(argv[1], "w");
 	if(fp == NULL){
 		perror("Cannot open file");
@@ -120,6 +120,7 @@ int main(int argc, char *argv[]){
 		fwrite(line, 1, strlen(line)*sizeof(char), fp);
 		fwrite("\n", 1, sizeof(char), fp);
 	}
+	fclose(fp);
 	printf("Done patching file\n");
 	return 0;
 }

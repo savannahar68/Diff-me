@@ -72,17 +72,25 @@ int deleteset(filestore *f, int pos){
 char *readline(filestore *f){
 	node *ptr = NULL;
 	char *line = NULL;
-	if(f->head == NULL)
+	if(f->head == NULL){
 		return line;
+	}
 	line = (char *)malloc(2*128*sizeof(char));
-	while(f->head->flag == 1){//of the node has delete flag set
+	while(f->head != NULL && f->head->flag == 1){//of the node has delete flag set
 		ptr = f->head;	  //the free that node and move the pointer ahead
 		f->head = f->head->next;
+		free(ptr->line);
 		free(ptr);		
+	}
+	if(f->head == NULL){
+		free(line);
+		line = NULL;
+		return line;
 	}
 	strcpy(line, f->head->line);
 	ptr = f->head;
 	f->head = f->head->next;
+	free(ptr->line);
 	free(ptr);
 	return line;
 }
@@ -90,14 +98,14 @@ char *readline(filestore *f){
 filestore readlinesfromfiles(char *filename){
 	FILE *fp;
 	filestore store;
-	char line[128];
+	char line[256];
 	int pos = 1;
 	fp = fopen(filename, "r");	
 	init(&store);
 	if(fp == NULL)
 		return store;
 	while(1){
-		if(fgets(line, 128, fp) == NULL)
+		if(fgets(line, 256, fp) == NULL)
 			break;
 		//malloc each lines
 		line[strlen(line) - 1] = '\0'; //to prevent storing of \n at the end
