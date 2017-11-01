@@ -1,3 +1,9 @@
+Title - DIFF_ME
+Name  - Savan Nilesh Nahar
+MSID  - 141703009
+
+Description - 
+
 The project will implement
 
 Diff command - which basically will work like he diff command which is there in linux
@@ -23,8 +29,8 @@ Patch command - which takes the patch file containing the difference of two file
                 
 The "src" folder contains the DIFF utility
     
-    to run the DIFF utility run the "diff-me" file which is present in the src folder
+    to run the DIFF utility run the "project" file which is present in the src folder
     
 The "patch" folder contains the PATCH utility
     
-    to run the PATCH utility run the "patch-me" file which is present in the patch folder
+    to run the PATCH utility run the "project" file which is present in the patch folder

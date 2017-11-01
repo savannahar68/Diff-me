@@ -293,7 +293,6 @@ int main(int argc, char *argv[]){
                         	                fread(string2, fsize, 1, f);
                                 	        fclose(f);
                                         	string2[fsize] = 0;
-						printf("%s %s\n",string1, string2 );
 						if(strcmp(string1, string2) == 0)
 							printf("Binary Files : %s and %s are similar\n", filename[0], filename[1]);
 						else

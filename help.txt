@@ -1,0 +1,3 @@
+Resource - The algorithm used is mayers and diff.
+	   Mayers Paper	
+	   Diff option paper.	

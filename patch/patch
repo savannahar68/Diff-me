@@ -1,0 +1,46 @@
+1d1
+< This part of the
+2a1,8
+> This is an important
+> notice! It should
+> therefore be located at
+> addtional line here
+> the beginning of this
+> document!
+> 
+> This is an important
+4d11
+< version.  It shouldn't
+5a11
+> the beginning of this
+6,9d13
+< change.  Otherwise, that
+< would not be helping to
+< compress the size of the
+< changes.
+11,14d14
+< This paragraph contains
+< text that is outdated.
+< It will be deleted in the
+< near future.
+16,17d15
+< It is important to spell
+< check this dokument. On
+18a15,21
+> change.  Otherwise, that1
+> would not be helping to would not be helping to would not be helping to
+> compress anything.
+> 
+> It is important to spell1
+> can do anything
+> check this document. On
+24d28
+< be added after it.
+25a28,34
+> be added after it.be added after it.be added after it.be asd
+> 
+> 
+> This paragraph contains
+> important new additions
+> to this document.
+> end
